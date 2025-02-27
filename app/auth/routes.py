@@ -2,11 +2,11 @@
 
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, current_user, login_required
-from . import bp  # Import the bp object from the same package
 from .forms import LoginForm, RegistrationForm
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
+    from app import db
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
     form = LoginForm()
@@ -21,11 +21,13 @@ def login():
 
 @bp.route('/logout', methods=['POST'])
 def logout():
+    from app import db
     logout_user()
     return redirect(url_for('main.index'))
 
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
+    from app import db
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
     form = RegistrationForm()
